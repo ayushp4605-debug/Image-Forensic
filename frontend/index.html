@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Digital Forensics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>DeepForge AI</h2>
+                <p class="badge">Phase 1 Prototype</p>
+            </div>
+            
+            <div class="panel">
+                <h3>Target Media</h3>
+                <label for="imageUpload" class="upload-area">
+                    <span id="upload-text">Click to Upload Image</span>
+                </label>
+                <input type="file" id="imageUpload" accept="image/png, image/jpeg">
+            </div>
+
+            <div class="panel">
+                <h3>Extraction Parameters</h3>
+                <div class="slider-group">
+                    <label>JPEG Quality <span id="quality-val" class="val">90</span></label>
+                    <input type="range" id="quality" min="50" max="100" value="90">
+                </div>
+                <div class="slider-group">
+                    <label>Error Multiplier <span id="scale-val" class="val">15</span></label>
+                    <input type="range" id="scale" min="1" max="50" value="15">
+                </div>
+                <div class="slider-group">
+                    <label>Noise Filter <span id="noise-val" class="val">Wiener</span></label>
+                    <input type="range" id="noise" min="1" max="3" value="1">
+                </div>
+                
+                <button id="analyze-btn" class="btn-primary" disabled>Run Full Analysis</button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <header class="tabs">
+                <button class="tab-btn active" data-tab="signals">Classical Signals (4)</button>
+                <button class="tab-btn" data-tab="fusion">Neural Fusion (U-Net)</button>
+                <button class="tab-btn" data-tab="report">Forensic Report</button>
+            </header>
+
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+                <p id="progress-text">Extracting features...</p>
+            </div>
+
+            <!-- Tab 1: All 4 Signals -->
+            <div id="signals" class="tab-content active">
+                <div class="signals-grid">
+                    <div class="signal-card">
+                        <div class="card-header">1. Error Level Analysis (ELA)</div>
+                        <img class="preview-img" src="" alt="Awaiting image">
+                    </div>
+                    <div class="signal-card">
+                        <div class="card-header">2. PRNU Noise Residual</div>
+                        <img class="preview-img prnu-filter" src="" alt="Awaiting image">
+                    </div>
+                    <div class="signal-card">
+                        <div class="card-header">3. CFA Interpolation Variance</div>
+                        <img class="preview-img cfa-filter" src="" alt="Awaiting image">
+                    </div>
+                    <div class="signal-card">
+                        <div class="card-header">4. JPEG 8x8 Block Grid</div>
+                        <img class="preview-img grid-filter" src="" alt="Awaiting image">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Neural Fusion -->
+            <div id="fusion" class="tab-content">
+                <div class="fusion-layout">
+                    <div class="main-image-container">
+                        <div class="card-header">Probability Mask Overlay</div>
+                        <div class="overlay-wrapper">
+                            <img class="base-img" src="" alt="Awaiting image">
+                            <div class="heatmap-overlay"></div>
+                        </div>
+                    </div>
+                    <div class="metrics-panel">
+                        <div class="metric-box">
+                            <h3>Tampering Confidence</h3>
+                            <div class="score danger">92.4%</div>
+                            <p>High likelihood of manipulation</p>
+                        </div>
+                        <div class="metric-box">
+                            <h3>Network Architecture</h3>
+                            <p>PyTorch U-Net (4-Channel Input)</p>
+                        </div>
+                        <div class="metric-box">
+                            <h3>Affected Area</h3>
+                            <p>14.2% of total pixels</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Report -->
+            <div id="report" class="tab-content">
+                <div class="report-document">
+                    <h1>Automated Analysis Report</h1>
+                    <hr>
+                    <h2 class="danger">🚨 Splicing Forgery Detected</h2>
+                    <p>The neural fusion engine has identified anomalous regions consistent with external image splicing.</p>
+                    
+                    <h3>Signal Contributions:</h3>
+                    <ul class="report-list">
+                        <li><strong>ELA:</strong> Sharp variance in compression history detected within the masked bounding box.</li>
+                        <li><strong>PRNU:</strong> High-frequency sensor noise inside the region does not match the background camera profile.</li>
+                        <li><strong>CFA:</strong> Mathematical disruption in the Bayer filter demosaicing pattern detected along the object boundaries.</li>
+                        <li><strong>Grid:</strong> $8 \times 8$ Discrete Cosine Transform blocks are misaligned, indicating the region was cropped and pasted.</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
