@@ -1,84 +1,1397 @@
-:root {
-    --bg-base: #0b0f19;
-    --bg-panel: #151b2b;
-    --bg-card: #1f2937;
-    --accent: #3b82f6;
-    --accent-hover: #2563eb;
-    --danger: #ef4444;
-    --text-main: #f3f4f6;
-    --text-muted: #9ca3af;
-    --border: #374151;
+/* ===================================================
+   RavenLens - style.css (Part 5A)
+   Global Theme + Header + Sidebar + Cards
+=================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Segoe UI', sans-serif; }
+html{
+    scroll-behavior:smooth;
+}
 
-body { background-color: var(--bg-base); color: var(--text-main); height: 100vh; overflow: hidden; }
-.dashboard { display: flex; height: 100%; }
+body{
 
-/* Sidebar */
-.sidebar { width: 320px; background-color: var(--bg-panel); border-right: 1px solid var(--border); padding: 1.5rem; display: flex; flex-direction: column; gap: 2rem; }
-.logo h2 { font-size: 1.5rem; letter-spacing: 1px; color: white; }
-.badge { display: inline-block; background: rgba(59, 130, 246, 0.2); color: var(--accent); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-top: 5px; }
+    background:#030303;
 
-.panel { display: flex; flex-direction: column; gap: 1rem; }
-.panel h3 { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    color:#f5f5f5;
 
-.upload-area { border: 2px dashed var(--border); padding: 2rem 1rem; text-align: center; border-radius: 8px; cursor: pointer; color: var(--accent); transition: 0.2s; background: rgba(0,0,0,0.2); }
-.upload-area:hover { border-color: var(--accent); background: rgba(59, 130, 246, 0.05); }
-input[type="file"] { display: none; }
+    overflow-x:hidden;
 
-.slider-group { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem; }
-.slider-group label { display: flex; justify-content: space-between; }
-.val { color: var(--accent); font-weight: bold; }
-input[type="range"] { accent-color: var(--accent); width: 100%; }
 
-.btn-primary { background: var(--accent); color: white; border: none; padding: 1rem; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 1rem; }
-.btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
-.btn-primary:not(:disabled):hover { background: var(--accent-hover); }
+    background-image:
 
-/* Main Workspace */
-.workspace { flex: 1; display: flex; flex-direction: column; padding: 2rem; overflow-y: auto; }
-.tabs { display: flex; gap: 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-.tab-btn { background: none; border: none; color: var(--text-muted); padding: 0.5rem 0; font-size: 1rem; cursor: pointer; font-weight: 500; position: relative; }
-.tab-btn.active { color: white; }
-.tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--accent); }
+    radial-gradient(
+        circle at top left,
+        rgba(168,85,247,.12),
+        transparent 35%
+    ),
 
-.tab-content { display: none; animation: fade 0.3s ease; }
-.tab-content.active { display: block; }
-@keyframes fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    radial-gradient(
+        circle at bottom right,
+        rgba(255,255,255,.05),
+        transparent 30%
+    ),
 
-/* Progress Bar */
-.progress-container { display: none; background: var(--bg-panel); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--border); }
-.progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 1rem; position: relative; }
-.progress-bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--accent); transition: width 0.3s ease; id: progress-fill; }
-#progress-text { font-size: 0.85rem; color: var(--text-muted); font-family: monospace; }
+    linear-gradient(
+        180deg,
+        #030303,
+        #0a0a0a
+    );
 
-/* 2x2 Signals Grid */
-.signals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.signal-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; gap: 1rem; }
-.card-header { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-.preview-img { width: 100%; height: 300px; object-fit: contain; background: black; border-radius: 4px; display: none; opacity: 0; transition: opacity 0.5s; }
+}
 
-/* MOCK SIGNAL FILTERS (Visual tricks for the Phase 1 presentation) */
-.ela-applied { filter: contrast(400%) grayscale(100%) invert(100%); }
-.prnu-filter.ela-applied { filter: contrast(200%) grayscale(100%) blur(1px); } /* Looks like noise */
-.cfa-filter.ela-applied { filter: hue-rotate(90deg) contrast(300%) saturate(200%); } /* Looks like Bayer patterns */
-.grid-filter.ela-applied { filter: contrast(300%) grayscale(100%); image-rendering: pixelated; } /* Looks blocky */
+/* Scrollbar */
 
-/* Fusion Tab */
-.fusion-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
-.main-image-container { background: var(--bg-panel); padding: 1rem; border: 1px solid var(--border); border-radius: 8px; }
-.overlay-wrapper { position: relative; margin-top: 1rem; background: black; text-align: center; border-radius: 4px; overflow: hidden; }
-.base-img { max-width: 100%; max-height: 500px; display: none; }
-.heatmap-overlay { position: absolute; top: 20%; left: 35%; width: 30%; height: 40%; background: radial-gradient(circle, rgba(239,68,68,0.7) 0%, rgba(239,68,68,0) 70%); border-radius: 40%; display: none; mix-blend-mode: multiply; }
+::-webkit-scrollbar{
 
-.metrics-panel { display: flex; flex-direction: column; gap: 1rem; }
-.metric-box { background: var(--bg-panel); padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; }
-.metric-box h3 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; }
-.score { font-size: 2.5rem; font-weight: bold; }
-.danger { color: var(--danger); }
+    width:10px;
 
-/* Report Tab */
-.report-document { background: var(--text-main); color: #111827; padding: 3rem; border-radius: 8px; max-width: 800px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.report-document hr { border: 0; border-top: 2px solid #e5e7eb; margin: 1.5rem 0; }
-.report-list { margin-left: 1.5rem; margin-top: 1.5rem; line-height: 1.8; }
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111111;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#7e22ce;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#a855f7;
+
+}
+
+/* ================= HEADER ================= */
+
+header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+    backdrop-filter:blur(15px);
+
+    background:rgba(15,23,42,.90);
+
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
+
+}
+
+/* ================= SIDEBAR ================= */
+
+aside{
+
+    transition:.35s;
+
+    background:rgba(15,23,42,.96);
+
+    backdrop-filter:blur(10px);
+
+}
+
+.sidebarItem{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.30s;
+
+    color:#cbd5e1;
+
+    font-weight:500;
+
+}
+
+.sidebarItem i{
+
+    width:22px;
+
+    text-align:center;
+
+    color:#a855f7;
+
+}
+
+.sidebarItem:hover{
+
+    background:#18181b;
+
+        color:white;
+
+         box-shadow:
+          0 0 20px rgba(168,85,247,.35);
+
+
+}
+
+/* ================= CARDS ================= */
+
+.bg-slate-900{
+
+    transition:.35s;
+
+}
+
+.bg-slate-900:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+
+    0 0 25px rgba(34,211,238,.08),
+
+    0 10px 35px rgba(0,0,0,.35);
+
+}
+
+/* ================= BUTTON ================= */
+
+button{
+
+    transition:.30s;
+
+    cursor:pointer;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 0 20px rgba(6,182,212,.45);
+
+}
+
+/* ================= UPLOAD AREA ================= */
+
+#dropArea{
+
+    transition:.35s;
+
+    background:rgba(15,23,42,.35);
+
+}
+
+#dropArea:hover{
+
+    border-color:#a855f7;
+
+    background:rgba(8,145,178,.08);
+
+    transform:scale(1.01);
+
+}
+
+/* ================= PREVIEW ================= */
+
+#preview{
+
+    max-width:100%;
+
+    max-height:100%;
+
+    object-fit:contain;
+
+    border-radius:12px;
+
+}
+
+/* ================= TYPOGRAPHY ================= */
+
+h1{
+
+    letter-spacing:.5px;
+
+}
+
+h2{
+
+    letter-spacing:.3px;
+
+}
+
+p{
+
+    line-height:1.7;
+
+}
+
+/* ================= SMALL CARDS ================= */
+
+.techCard{
+
+    background:#111111;
+
+    border:1px solid #27272a;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    text-align:center;
+
+    font-weight:600;
+
+    transition:.30s;
+
+}
+
+.techCard:hover{
+
+    background:#164e63;
+
+    border-color:#a855f7;
+
+    transform:translateY(-4px);
+
+}
+
+.workflowCard{
+
+    background:#111111;
+
+    border-radius:18px;
+
+    border:1px solid #27272a;
+
+    padding:30px 20px;
+
+    transition:.35s;
+
+}
+
+.workflowCard:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#a855f7;
+
+    box-shadow:0 0 25px rgba(34,211,238,.18);
+
+}
+
+/* ================= TABLE ================= */
+
+table{
+
+    border-collapse:collapse;
+
+}
+
+th{
+
+    color:#a855f7;
+
+}
+
+td{
+
+    color:#d1d5db;
+
+}
+
+/* ================= GLOW EFFECT ================= */
+
+.glow{
+
+    box-shadow:
+
+    0 0 10px #06b6d4,
+
+    0 0 20px #06b6d4,
+
+    0 0 30px #06b6d4;
+
+}
+
+/* ===================================================
+   RavenLens - style.css (Part 5B)
+   Analysis Panel + Heatmap + Progress + Animations
+=================================================== */
+
+
+/* ================= ANALYSIS BUTTON ================= */
+
+#analyzeBtn{
+
+    width:100%;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:15px;
+
+    background:linear-gradient(135deg,#7e22ce,#06b6d4);
+
+    color:white;
+
+}
+
+#analyzeBtn:hover{
+
+    background:linear-gradient(135deg,#0ea5e9,#a855f7);
+
+}
+
+
+
+/* ================= CONFIDENCE BAR ================= */
+
+#confidenceBar{
+
+    transition:width 1.2s ease;
+
+    background:linear-gradient(90deg,
+
+    #a855f7,
+    #3b82f6,
+    #60a5fa);
+
+}
+
+
+
+/* ================= RESULT BOX ================= */
+
+#predictionBox{
+
+    transition:.4s;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+}
+
+
+
+/* ================= IMAGE DETAILS ================= */
+
+#fileName,
+
+#fileSize,
+
+#fileFormat,
+
+#resolution,
+
+#analysisTime,
+
+#confidenceText{
+
+    font-weight:700;
+
+}
+
+
+
+/* ================= HEATMAP ================= */
+
+#heatmapImage{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+}
+
+
+
+#heatmapPlaceholder{
+
+    text-align:center;
+
+    animation:float 3s ease-in-out infinite;
+
+}
+
+
+
+/* ================= FLOAT ANIMATION ================= */
+
+@keyframes float{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+
+
+/* ================= LOADING SPINNER ================= */
+
+.loader{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    border:6px solid rgba(255,255,255,.2);
+
+    border-top:6px solid #a855f7;
+
+    animation:spin 1s linear infinite;
+
+}
+
+
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+
+
+/* ================= CYBER SCAN LINE ================= */
+
+.scanLine{
+
+    position:absolute;
+
+    width:100%;
+
+    height:4px;
+
+    background:rgba(34,211,238,.9);
+
+    box-shadow:0 0 25px cyan;
+
+    animation:scan 3s linear infinite;
+
+}
+
+
+
+@keyframes scan{
+
+    0%{
+
+        top:0;
+
+    }
+
+    100%{
+
+        top:100%;
+
+    }
+
+}
+
+
+
+/* ================= IMAGE FRAME ================= */
+
+.imageFrame{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:15px;
+
+}
+
+
+
+.imageFrame::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border:2px solid rgba(34,211,238,.25);
+
+    pointer-events:none;
+
+}
+
+
+
+/* ================= STATISTIC CARDS ================= */
+
+.statCard{
+
+    transition:.35s;
+
+    border:1px solid #27272a;
+
+}
+
+
+
+.statCard:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#a855f7;
+
+    box-shadow:
+
+    0 0 25px rgba(34,211,238,.20);
+
+}
+
+
+
+/* ================= PULSE ICON ================= */
+
+.pulse{
+
+    animation:pulse 2s infinite;
+
+}
+
+
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.15);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+
+
+/* ================= STATUS BADGES ================= */
+
+.success{
+
+    color:#22c55e;
+
+}
+
+
+
+.warning{
+
+    color:#facc15;
+
+}
+
+
+
+.danger{
+
+    color:#ef4444;
+
+}
+
+
+
+/* ================= GLASS EFFECT ================= */
+
+.glass{
+
+    background:rgba(15,23,42,.55);
+
+    backdrop-filter:blur(18px);
+
+}
+
+
+
+/* ================= ICON HOVER ================= */
+
+i{
+
+    transition:.3s;
+
+}
+
+
+
+i:hover{
+
+    transform:scale(1.15);
+
+}
+
+
+
+/* ================= SECTION TITLE ================= */
+
+.sectionTitle{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:20px;
+
+    font-size:26px;
+
+    font-weight:700;
+
+}
+
+
+
+/* ================= DASHBOARD FADE ================= */
+
+.fadeIn{
+
+    animation:fadeIn .7s ease;
+
+}
+
+
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+/* ===================================================
+   RavenLens - style.css (Part 5C)
+   Premium UI Effects
+=================================================== */
+
+/* ============ Animated Background ============ */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:100%;
+
+    background-image:
+
+    linear-gradient(rgba(34,211,238,.03) 1px, transparent 1px),
+
+    linear-gradient(90deg, rgba(34,211,238,.03) 1px, transparent 1px);
+
+    background-size:45px 45px;
+
+    pointer-events:none;
+
+    animation:gridMove 20s linear infinite;
+
+    z-index:-2;
+
+}
+
+@keyframes gridMove{
+
+    from{
+
+        transform:translateY(0);
+
+    }
+
+    to{
+
+        transform:translateY(45px);
+
+    }
+
+}
+
+/* ============ Moving Glow ============ */
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:600px;
+
+    height:600px;
+
+    border-radius:50%;
+
+    background:rgba(34,211,238,.08);
+
+    filter:blur(120px);
+
+    top:-250px;
+
+    right:-150px;
+
+    animation:glowMove 10s ease-in-out infinite alternate;
+
+    z-index:-3;
+
+}
+
+@keyframes glowMove{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(-200px,120px);
+
+    }
+
+}
+
+/* ============ Logo Animation ============ */
+
+header h1{
+
+    animation:fadeLogo 1s ease;
+
+}
+
+@keyframes fadeLogo{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ============ Upload Animation ============ */
+
+#dropArea i{
+
+    animation:bounceUpload 2s infinite;
+
+}
+
+@keyframes bounceUpload{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-12px);
+
+    }
+
+}
+
+/* ============ Card Shine Effect ============ */
+
+.bg-slate-900{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.bg-slate-900::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180%;
+
+    height:120px;
+
+    background:linear-gradient(
+
+        transparent,
+
+        rgba(255,255,255,.06),
+
+        transparent
+
+    );
+
+    transform:rotate(35deg);
+
+    left:-220%;
+
+    top:-30px;
+
+    transition:1.2s;
+
+}
+
+.bg-slate-900:hover::before{
+
+    left:120%;
+
+}
+
+/* ============ Table Hover ============ */
+
+tbody tr{
+
+    transition:.3s;
+
+}
+
+tbody tr:hover{
+
+    background:rgba(34,211,238,.06);
+
+}
+
+/* ============ Tech Card ============ */
+
+.techCard{
+
+    box-shadow:0 0 15px rgba(34,211,238,.05);
+
+}
+
+.techCard:hover{
+
+    box-shadow:0 0 25px rgba(34,211,238,.25);
+
+}
+
+/* ============ Workflow Animation ============ */
+
+.workflowCard{
+
+    animation:workflowAppear .8s ease;
+
+}
+
+@keyframes workflowAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ============ Statistics Numbers ============ */
+
+.statCard h2{
+
+    color:#a855f7;
+
+    text-shadow:0 0 15px rgba(34,211,238,.4);
+
+}
+
+/* ============ Footer ============ */
+
+footer{
+
+    transition:.4s;
+
+}
+
+footer:hover{
+
+    border-color:#a855f7;
+
+}
+
+/* ============ Responsive ============ */
+
+@media(max-width:1200px){
+
+    .grid{
+
+        grid-template-columns:1fr !important;
+
+    }
+
+    aside{
+
+        width:220px;
+
+    }
+
+}
+
+@media(max-width:900px){
+
+    aside{
+
+        display:none;
+
+    }
+
+    main{
+
+        display:block;
+
+    }
+
+    section{
+
+        padding:20px;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    header{
+
+        flex-direction:column;
+
+        height:auto;
+
+        padding:20px;
+
+        gap:15px;
+
+    }
+
+    h1{
+
+        font-size:26px;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .grid{
+
+        gap:18px;
+
+    }
+
+    button{
+
+        font-size:16px;
+
+    }
+
+}
+
+/* ============ Scroll Animation ============ */
+
+html{
+
+    scroll-padding-top:90px;
+
+}
+
+/* ============ Selection Color ============ */
+
+::selection{
+
+    background:#a855f7;
+
+    color:black;
+
+}
+
+/* ============ End of Part 5C ============ */
+
+/* ===================================================
+   RavenLens - style.css (Part 5D)
+   Final Premium Effects
+=================================================== */
+
+/* ======== Watermark ======== */
+
+body::after{
+
+    content:"RavenLens";
+
+    position:fixed;
+
+    bottom:20px;
+
+    right:30px;
+
+    font-size:80px;
+
+    font-weight:900;
+
+    color:rgba(255,255,255,.025);
+
+    pointer-events:none;
+
+    user-select:none;
+
+    letter-spacing:8px;
+
+}
+
+/* ======== Dashboard Entry ======== */
+
+main{
+
+    animation:dashboardLoad 1s ease;
+
+}
+
+@keyframes dashboardLoad{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ======== Card Hover Glow ======== */
+
+.bg-slate-900:hover{
+
+    border-color:#a855f7;
+
+}
+
+/* ======== Image Hover ======== */
+
+#preview:hover{
+
+    transform:scale(1.02);
+
+    transition:.4s;
+
+}
+
+/* ======== Heatmap Glow ======== */
+
+#heatmapImage{
+
+    filter:drop-shadow(0 0 20px rgba(255,0,0,.4));
+
+}
+
+/* ======== Analyze Button ======== */
+
+#analyzeBtn{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+#analyzeBtn::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:100%;
+
+    height:100%;
+
+    background:linear-gradient(
+135deg,
+#a855f7,
+#2563eb
+);
+
+
+    transition:.7s;
+
+}
+
+#analyzeBtn:hover::before{
+
+    left:120%;
+
+}
+
+/* ======== Pulse Border ======== */
+
+.pulseBorder{
+
+    animation:borderPulse 2s infinite;
+
+}
+
+@keyframes borderPulse{
+
+    0%{
+
+        box-shadow:0 0 0 rgba(34,211,238,.5);
+
+    }
+
+    50%{
+
+        box-shadow:0 0 25px rgba(34,211,238,.5);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 0 rgba(34,211,238,.5);
+
+    }
+
+}
+
+/* ======== Floating Icons ======== */
+
+.floatIcon{
+
+    animation:floatIcon 4s ease-in-out infinite;
+
+}
+
+@keyframes floatIcon{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ======== Notification ======== */
+
+.notification{
+
+    position:fixed;
+
+    top:25px;
+
+    right:25px;
+
+    background:#111111;
+
+    border:1px solid #a855f7;
+
+    padding:15px 25px;
+
+    border-radius:12px;
+
+    opacity:0;
+
+    transform:translateX(120px);
+
+    transition:.5s;
+
+    z-index:9999;
+
+}
+
+.notification.show{
+
+    opacity:1;
+
+    transform:translateX(0);
+
+}
+
+/* ======== Loader Overlay ======== */
+
+.loadingOverlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(2,6,23,.92);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-direction:column;
+
+    z-index:99999;
+
+}
+
+.loadingOverlay h2{
+
+    margin-top:25px;
+
+    color:#a855f7;
+
+}
+
+/* ======== Footer ======== */
+
+footer{
+
+    color:#cbd5e1;
+
+}
+
+/* ======== Inputs ======== */
+
+input{
+
+    outline:none;
+
+}
+
+/* ======== Smooth Transitions ======== */
+
+*{
+
+    transition:
+
+        background-color .25s,
+
+        border-color .25s,
+
+        color .25s,
+
+        transform .25s;
+
+}

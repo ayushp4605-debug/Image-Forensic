@@ -3,127 +3,473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Digital Forensics</title>
+
+    <title>RavenLens | Digital Image Forensics</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <!-- Your CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="dashboard">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="logo">
-                <h2>DeepForge AI</h2>
-                <p class="badge">Phase 1 Prototype</p>
-            </div>
-            
-            <div class="panel">
-                <h3>Target Media</h3>
-                <label for="imageUpload" class="upload-area">
-                    <span id="upload-text">Click to Upload Image</span>
-                </label>
-                <input type="file" id="imageUpload" accept="image/png, image/jpeg">
+
+<body class="bg-slate-950 text-white">
+
+    <!-- Header -->
+    <header class="h-20 bg-slate-900 border-b border-cyan-700 flex items-center justify-between px-8 shadow-lg">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-xl bg-cyan-600 flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-eye text-2xl"></i>
             </div>
 
-            <div class="panel">
-                <h3>Extraction Parameters</h3>
-                <div class="slider-group">
-                    <label>JPEG Quality <span id="quality-val" class="val">90</span></label>
-                    <input type="range" id="quality" min="50" max="100" value="90">
-                </div>
-                <div class="slider-group">
-                    <label>Error Multiplier <span id="scale-val" class="val">15</span></label>
-                    <input type="range" id="scale" min="1" max="50" value="15">
-                </div>
-                <div class="slider-group">
-                    <label>Noise Filter <span id="noise-val" class="val">Wiener</span></label>
-                    <input type="range" id="noise" min="1" max="3" value="1">
-                </div>
-                
-                <button id="analyze-btn" class="btn-primary" disabled>Run Full Analysis</button>
+            <div>
+                <h1 class="text-3xl font-bold tracking-wider">RavenLens</h1>
+                <p class="text-cyan-400 text-sm">Digital Image Forensics Platform</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="bg-slate-800 px-4 py-2 rounded-lg border border-cyan-600">
+                <span class="text-green-400">● Prototype Ready</span>
+            </div>
+
+            <div class="bg-slate-800 px-4 py-2 rounded-lg border border-cyan-600">
+                Version 1.0
+            </div>
+        </div>
+    </header>
+
+    <main class="flex">
+
+        <!-- Sidebar -->
+        <aside class="w-72 min-h-[calc(100vh-80px)] bg-slate-900 border-r border-slate-700 p-6">
+            <h2 class="uppercase tracking-widest text-cyan-400 text-sm mb-6">Navigation</h2>
+
+            <ul class="space-y-3">
+                <li class="sidebarItem"><i class="fa-solid fa-house"></i> Dashboard</li>
+                <li class="sidebarItem"><i class="fa-solid fa-image"></i> Upload Image</li>
+                <li class="sidebarItem"><i class="fa-solid fa-magnifying-glass-chart"></i> Analysis</li>
+                <li class="sidebarItem"><i class="fa-solid fa-fire"></i> Heatmap</li>
+                <li class="sidebarItem"><i class="fa-solid fa-database"></i> Dataset</li>
+                <li class="sidebarItem"><i class="fa-solid fa-chart-line"></i> Statistics</li>
+                <li class="sidebarItem"><i class="fa-solid fa-microchip"></i> Model</li>
+            </ul>
+
+            <div class="mt-10 bg-slate-800 rounded-xl p-5 border border-cyan-700">
+                <h3 class="font-bold text-cyan-400 mb-3">Project Dataset</h3>
+                <p>CASIA 2.0</p>
+                <p class="text-sm text-slate-400 mt-2">
+                    Authentic: <span class="text-green-400">7,491</span>
+                </p>
+                <p class="text-sm text-slate-400">
+                    Tampered: <span class="text-red-400">5,123</span>
+                </p>
+                <p class="text-sm text-slate-400">
+                    Total: <span class="text-cyan-400">12,614</span>
+                </p>
             </div>
         </aside>
 
-        <!-- Main Workspace -->
-        <main class="workspace">
-            <header class="tabs">
-                <button class="tab-btn active" data-tab="signals">Classical Signals (4)</button>
-                <button class="tab-btn" data-tab="fusion">Neural Fusion (U-Net)</button>
-                <button class="tab-btn" data-tab="report">Forensic Report</button>
-            </header>
+        <!-- Main Content -->
+        <section class="flex-1 p-8">
 
-            <div class="progress-container" id="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
-                <p id="progress-text">Extracting features...</p>
+            <!-- Welcome -->
+            <div class="rounded-2xl bg-slate-900 border border-cyan-700 p-8 shadow-lg">
+                <h2 class="text-4xl font-bold">Welcome to RavenLens</h2>
+                <p class="text-slate-400 mt-3 leading-8">
+                    RavenLens is a digital image forensics platform designed to detect whether an uploaded image is
+                    authentic or tampered. This version is a frontend prototype for project demonstration.
+                </p>
             </div>
 
-            <!-- Tab 1: All 4 Signals -->
-            <div id="signals" class="tab-content active">
-                <div class="signals-grid">
-                    <div class="signal-card">
-                        <div class="card-header">1. Error Level Analysis (ELA)</div>
-                        <img class="preview-img" src="" alt="Awaiting image">
+            <!-- Upload and Preview -->
+            <div class="grid grid-cols-2 gap-8 mt-8">
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h3 class="text-2xl font-bold mb-5">Upload Image</h3>
+
+                    <div
+                        id="dropArea"
+                        class="border-2 border-dashed border-cyan-500 rounded-xl h-80 flex flex-col justify-center items-center cursor-pointer"
+                    >
+                        <i class="fa-solid fa-cloud-arrow-up text-6xl text-cyan-400"></i>
+                        <p class="mt-5 text-lg">Drag & Drop Image Here</p>
+                        <p class="text-slate-400">or</p>
+
+                        <button type="button" class="mt-4 bg-cyan-600 px-6 py-3 rounded-lg">
+                            Browse Image
+                        </button>
+
+                        <input
+                            type="file"
+                            id="imageInput"
+                            accept="image/png,image/jpeg,image/jpg,image/webp"
+                            hidden
+                        >
                     </div>
-                    <div class="signal-card">
-                        <div class="card-header">2. PRNU Noise Residual</div>
-                        <img class="preview-img prnu-filter" src="" alt="Awaiting image">
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h3 class="text-2xl font-bold mb-5">Image Preview</h3>
+
+                    <div class="bg-slate-950 rounded-xl h-80 flex justify-center items-center overflow-hidden">
+                        <img
+                            id="preview"
+                            src=""
+                            class="hidden max-w-full max-h-full rounded-xl"
+                            alt="Uploaded image preview"
+                        >
+
+                        <div id="noImage" class="text-center">
+                            <i class="fa-regular fa-image text-6xl text-slate-600"></i>
+                            <p class="text-slate-500 mt-5">No Image Selected</p>
+                        </div>
                     </div>
-                    <div class="signal-card">
-                        <div class="card-header">3. CFA Interpolation Variance</div>
-                        <img class="preview-img cfa-filter" src="" alt="Awaiting image">
+                </div>
+
+            </div>
+
+            <!-- Analysis -->
+            <div class="grid grid-cols-3 gap-8 mt-8">
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h3 class="text-2xl font-bold mb-6">Analysis Result</h3>
+
+                    <div class="space-y-5">
+                        <div>
+                            <p class="text-slate-400">Prediction</p>
+                            <div
+                                id="predictionBox"
+                                class="mt-2 rounded-lg bg-yellow-600 p-3 text-center font-bold text-xl"
+                            >
+                                Waiting...
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-slate-400">Confidence</p>
+                            <h2 id="confidenceText" class="text-5xl font-bold mt-2 text-cyan-400">0%</h2>
+                        </div>
+
+                        <div>
+                            <p class="text-slate-400 mb-2">Confidence Meter</p>
+                            <div class="w-full h-4 bg-slate-700 rounded-full">
+                                <div
+                                    id="confidenceBar"
+                                    class="bg-cyan-500 h-4 rounded-full"
+                                    style="width: 0%"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-slate-400">Analysis Time</p>
+                            <h2 id="analysisTime" class="text-2xl mt-2">0.00 sec</h2>
+                        </div>
+
+                        <button
+                            id="analyzeBtn"
+                            type="button"
+                            class="w-full bg-cyan-600 hover:bg-cyan-500 py-4 rounded-xl font-bold mt-6"
+                        >
+                            <i class="fa-solid fa-magnifying-glass-chart mr-2"></i>
+                            Analyze Image
+                        </button>
                     </div>
-                    <div class="signal-card">
-                        <div class="card-header">4. JPEG 8x8 Block Grid</div>
-                        <img class="preview-img grid-filter" src="" alt="Awaiting image">
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h3 class="text-2xl font-bold mb-5">Heatmap</h3>
+
+                    <div class="bg-slate-950 rounded-xl h-80 flex justify-center items-center overflow-hidden relative">
+                        <img
+                            id="heatmapImage"
+                            src=""
+                            class="hidden w-full h-full object-contain"
+                            alt="Prototype heatmap"
+                        >
+
+                        <div id="heatmapPlaceholder" class="text-center">
+                            <i class="fa-solid fa-fire text-6xl text-red-500"></i>
+                            <p class="text-slate-500 mt-5">
+                                Prototype Heatmap<br>
+                                Backend integration pending
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 bg-slate-800 rounded-lg p-4">
+                        <p class="text-slate-400">Heatmap Status</p>
+                        <h2 class="text-green-400 mt-2">Prototype Ready</h2>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h3 class="text-2xl font-bold mb-5">Image Details</h3>
+
+                    <div class="space-y-5">
+                        <div>
+                            <p class="text-slate-400">File Name</p>
+                            <h2 id="fileName">--</h2>
+                        </div>
+
+                        <div>
+                            <p class="text-slate-400">Resolution</p>
+                            <h2 id="resolution">--</h2>
+                        </div>
+
+                        <div>
+                            <p class="text-slate-400">File Size</p>
+                            <h2 id="fileSize">--</h2>
+                        </div>
+
+                        <div>
+                            <p class="text-slate-400">Format</p>
+                            <h2 id="fileFormat">--</h2>
+                        </div>
+
+                        <div>
+                            <p class="text-slate-400">Status</p>
+                            <h2 class="text-green-400">Ready for Analysis</h2>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Dataset and Technology -->
+            <div class="grid grid-cols-2 gap-8 mt-8">
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <i class="fa-solid fa-database text-cyan-400 mr-3"></i>
+                        Dataset Information
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Dataset</span>
+                            <span class="font-bold">CASIA 2.0</span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Authentic Images</span>
+                            <span class="text-green-400 font-bold">7,491</span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Tampered Images</span>
+                            <span class="text-red-400 font-bold">5,123</span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Total Images</span>
+                            <span class="text-cyan-400 font-bold">12,614</span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Formats</span>
+                            <span>JPG • BMP • TIFF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <i class="fa-solid fa-microchip text-cyan-400 mr-3"></i>
+                        Technology Stack
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="techCard">Python</div>
+                        <div class="techCard">TensorFlow</div>
+                        <div class="techCard">OpenCV</div>
+                        <div class="techCard">Flask</div>
+                        <div class="techCard">HTML</div>
+                        <div class="techCard">CSS</div>
+                        <div class="techCard">JavaScript</div>
+                        <div class="techCard">Tailwind CSS</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Workflow -->
+            <div class="bg-slate-900 rounded-2xl border border-slate-700 p-8 mt-8">
+                <h2 class="text-2xl font-bold mb-8">
+                    <i class="fa-solid fa-diagram-project text-cyan-400 mr-3"></i>
+                    Detection Workflow
+                </h2>
+
+                <div class="grid grid-cols-6 gap-6 text-center">
+                    <div class="workflowCard">
+                        <i class="fa-solid fa-upload text-4xl text-cyan-400 mb-3"></i>
+                        <p>Upload</p>
+                    </div>
+
+                    <div class="workflowCard">
+                        <i class="fa-solid fa-image text-4xl text-green-400 mb-3"></i>
+                        <p>Preprocessing</p>
+                    </div>
+
+                    <div class="workflowCard">
+                        <i class="fa-solid fa-brain text-4xl text-purple-400 mb-3"></i>
+                        <p>CNN Model</p>
+                    </div>
+
+                    <div class="workflowCard">
+                        <i class="fa-solid fa-magnifying-glass-chart text-4xl text-yellow-400 mb-3"></i>
+                        <p>Feature Extraction</p>
+                    </div>
+
+                    <div class="workflowCard">
+                        <i class="fa-solid fa-fire text-4xl text-red-400 mb-3"></i>
+                        <p>Heatmap</p>
+                    </div>
+
+                    <div class="workflowCard">
+                        <i class="fa-solid fa-circle-check text-4xl text-green-500 mb-3"></i>
+                        <p>Prediction</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab 2: Neural Fusion -->
-            <div id="fusion" class="tab-content">
-                <div class="fusion-layout">
-                    <div class="main-image-container">
-                        <div class="card-header">Probability Mask Overlay</div>
-                        <div class="overlay-wrapper">
-                            <img class="base-img" src="" alt="Awaiting image">
-                            <div class="heatmap-overlay"></div>
-                        </div>
-                    </div>
-                    <div class="metrics-panel">
-                        <div class="metric-box">
-                            <h3>Tampering Confidence</h3>
-                            <div class="score danger">92.4%</div>
-                            <p>High likelihood of manipulation</p>
-                        </div>
-                        <div class="metric-box">
-                            <h3>Network Architecture</h3>
-                            <p>PyTorch U-Net (4-Channel Input)</p>
-                        </div>
-                        <div class="metric-box">
-                            <h3>Affected Area</h3>
-                            <p>14.2% of total pixels</p>
-                        </div>
-                    </div>
+            <!-- Model Status -->
+            <div class="grid grid-cols-3 gap-8 mt-8">
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h3 class="text-xl font-bold mb-4">Model</h3>
+                    <h2 class="text-4xl text-cyan-400 font-bold">CNN</h2>
+                    <p class="text-slate-400 mt-3">Convolutional Neural Network</p>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h3 class="text-xl font-bold mb-4">Backend</h3>
+                    <h2 class="text-4xl text-yellow-400 font-bold">Pending</h2>
+                    <p class="text-slate-400 mt-3">Flask integration after demo</p>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6">
+                    <h3 class="text-xl font-bold mb-4">Heatmap</h3>
+                    <h2 class="text-4xl text-green-400 font-bold">Prototype</h2>
+                    <p class="text-slate-400 mt-3">UI preview for demonstration</p>
                 </div>
             </div>
 
-            <!-- Tab 3: Report -->
-            <div id="report" class="tab-content">
-                <div class="report-document">
-                    <h1>Automated Analysis Report</h1>
-                    <hr>
-                    <h2 class="danger">🚨 Splicing Forgery Detected</h2>
-                    <p>The neural fusion engine has identified anomalous regions consistent with external image splicing.</p>
-                    
-                    <h3>Signal Contributions:</h3>
-                    <ul class="report-list">
-                        <li><strong>ELA:</strong> Sharp variance in compression history detected within the masked bounding box.</li>
-                        <li><strong>PRNU:</strong> High-frequency sensor noise inside the region does not match the background camera profile.</li>
-                        <li><strong>CFA:</strong> Mathematical disruption in the Bayer filter demosaicing pattern detected along the object boundaries.</li>
-                        <li><strong>Grid:</strong> $8 \times 8$ Discrete Cosine Transform blocks are misaligned, indicating the region was cropped and pasted.</li>
-                    </ul>
+            <!-- Statistics -->
+            <div class="grid grid-cols-4 gap-8 mt-8">
+
+                <div class="statCard bg-slate-900 rounded-2xl border border-slate-700 p-6 text-center">
+                    <i class="fa-solid fa-images text-4xl text-cyan-400 mb-4"></i>
+                    <h2 class="text-4xl font-bold">12614</h2>
+                    <p class="text-slate-400 mt-2">Dataset Images</p>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6 text-center">
+                    <i class="fa-solid fa-shield-halved text-4xl text-green-400 mb-4"></i>
+                    <h2 class="text-4xl font-bold">CNN</h2>
+                    <p class="text-slate-400 mt-2">Detection Model</p>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6 text-center">
+                    <i class="fa-solid fa-fire text-4xl text-red-400 mb-4"></i>
+                    <h2 class="text-4xl font-bold">Heatmap</h2>
+                    <p class="text-slate-400 mt-2">Localization</p>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl border border-slate-700 p-6 text-center">
+                    <i class="fa-solid fa-clock text-4xl text-yellow-400 mb-4"></i>
+                    <h2 id="clock" class="text-3xl font-bold">--:--</h2>
+                    <p class="text-slate-400 mt-2">Live Time</p>
+                </div>
+
+            </div>
+
+            <!-- Recent Analysis -->
+            <div class="bg-slate-900 rounded-2xl border border-slate-700 p-8 mt-8">
+                <h2 class="text-2xl font-bold mb-6">
+                    <i class="fa-solid fa-clock-rotate-left text-cyan-400 mr-2"></i>
+                    Recent Analysis
+                </h2>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="text-left py-4">Image</th>
+                                <th class="text-left py-4">Prediction</th>
+                                <th class="text-left py-4">Confidence</th>
+                                <th class="text-left py-4">Time</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4">forest.jpg</td>
+                                <td class="text-green-400">Authentic</td>
+                                <td>98.12%</td>
+                                <td>0.74 sec</td>
+                            </tr>
+
+                            <tr class="border-b border-slate-800">
+                                <td class="py-4">house.png</td>
+                                <td class="text-red-400">Tampered</td>
+                                <td>93.40%</td>
+                                <td>0.81 sec</td>
+                            </tr>
+
+                            <tr>
+                                <td class="py-4">road.jpg</td>
+                                <td class="text-green-400">Authentic</td>
+                                <td>97.65%</td>
+                                <td>0.69 sec</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </main>
-    </div>
+
+           <!-- Project Overview -->
+
+<div class="bg-slate-900 rounded-2xl border border-slate-700 p-8 mt-8">
+
+    <h2 class="text-2xl font-bold mb-6">
+        Project Overview
+    </h2>
+
+    <p class="text-slate-300 leading-8">
+        RavenLens is a digital image forensics platform developed
+        to detect manipulated images. The system uses image
+        preprocessing, CNN-based classification, confidence
+        estimation, and heatmap visualization for forgery detection.
+    </p>
+
+</div>
+
+            <!-- Footer -->
+            <footer class="mt-10 mb-8 bg-slate-900 border border-slate-700 rounded-2xl p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold">RavenLens v1.0</h2>
+                        <p class="text-slate-400">Digital Image Forensics Platform</p>
+                    </div>
+
+                    <div class="text-right">
+                        <p class="text-slate-400">Built using</p>
+                        <p>HTML • CSS • JavaScript • TensorFlow • Flask</p>
+                    </div>
+                </div>
+            </footer>
+
+        </section>
+    </main>
+
+    <!-- Your JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
