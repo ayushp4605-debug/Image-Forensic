@@ -1,1 +1,12 @@
-Data/
+# Ignore Datasets and large numpy arrays
+dataset/
+
+# Ignore Python Virtual Environment
+venv/
+
+# Ignore saved models (Neural network weights often exceed 100MB)
+src/saved_models/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
